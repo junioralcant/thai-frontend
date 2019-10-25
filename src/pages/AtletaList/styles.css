@@ -1,0 +1,22 @@
+a {
+  color: #fff;
+  background: rgb(30, 171, 236);
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 5px;
+  transition: all 0.2s;
+  margin-left: 2px;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+table {
+  margin-top: 10px;
+}
+
+.btnProAnt {
+  display: flex;
+  justify-content: space-between;
+}
