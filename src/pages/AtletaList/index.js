@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
+import { logout } from "../../services/auth";
 import api from "../../services/api";
 import "./styles.css";
 
@@ -57,11 +58,21 @@ export default function AtletaList({ history, match }) {
     setPagina(numeroDePaginas);
   }
 
+  function sair() {
+    logout();
+    history.push("/");
+  }
+
   console.log(atletas);
 
   return (
     <div className="container">
       <div className="col-md-12">
+        <div className="row" style={{ marginTop: 20, marginLeft: 10 }}>
+          <button className="btn btn-danger" onClick={sair}>
+            Sair
+          </button>
+        </div>
         <div className="row">
           <div className="col-md-6">
             <br />
@@ -101,6 +112,7 @@ export default function AtletaList({ history, match }) {
               <tr key={atleta._id}>
                 <td>{atleta.nome}</td>
                 <td>{atleta.contato.email}</td>
+                <td>{atleta.usuario}</td>
                 <td>{atleta.dataNascimento}</td>
                 <td>{atleta.contato.whatsapp}</td>
                 <td>{atleta.contato.telefone}</td>
