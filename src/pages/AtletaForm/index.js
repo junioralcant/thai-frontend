@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input, Scope } from "unform";
+import { Form, Input } from "unform";
+import { Link } from "react-router-dom";
+
 import api from "../../services/api";
+import { logout } from "../../services/auth";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 // import { Container } from './styles';
@@ -28,8 +31,46 @@ export default function AtletaForm({ history, match }) {
     }
   }, [match.params, match.params.id]);
 
+  function sair() {
+    logout();
+    history.push("/");
+  }
+
   return (
     <div className="container">
+      <div className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarTogglerDemo01"
+          aria-controls="navbarTogglerDemo01"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
+          <Link className="navbar-brand" to="/atletas">
+            Explosão Thai <span className="sr-only">(current)</span>
+          </Link>
+          <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li className="nav-item ">
+              <Link className="nav-link active" to="/atletas/create">
+                Cadastrar Atleta <span className="sr-only">(current)</span>
+              </Link>
+            </li>
+            <li className="nav-item ">
+              <Link className="nav-link" to="/atletas">
+                Listar Atletas <span className="sr-only">(current)</span>
+              </Link>
+            </li>
+          </ul>
+          <button className="btn btn btn-danger my-2 my-sm-0" onClick={sair}>
+            Sair
+          </button>
+        </div>
+      </div>
       <h1>Cadastro de Atletas</h1>
       <Form className="form-group" initialData={data} onSubmit={handleSubmit}>
         <div className="row">
@@ -42,12 +83,15 @@ export default function AtletaForm({ history, match }) {
             />
             <Input className="form-control" name="nome" label="Nome" />
 
-            <Scope path="endereco">
-              <Input className="form-control" name="rua" label="Rua" />
-              <Input className="form-control" name="cidade" label="Cidade" />
-              <Input className="form-control" name="bairro" label="Bairro" />
-              <Input className="form-control" name="estado" label="Estado" />
-            </Scope>
+            <Input className="form-control" name="endereco" label="Rua" />
+            <Input className="form-control" name="cidade" label="Cidade" />
+            <Input className="form-control" name="bairro" label="Bairro" />
+            <Input
+              className="form-control"
+              name="numero"
+              label="Número da casa"
+            />
+            <Input className="form-control" name="estado" label="Estado" />
 
             <Input className="form-control" name="rg" label="RG" />
             <Input className="form-control" name="cpf" label="CPF" />
@@ -68,28 +112,20 @@ export default function AtletaForm({ history, match }) {
               label="Profissão"
             />
 
-            <Scope path="academia">
-              <Input className="form-control" name="nome" label="Nome" />
-              <Input
-                className="form-control"
-                name="professor"
-                label="Professor"
-              />
-            </Scope>
+            <Input
+              className="form-control"
+              name="nomeAcademia"
+              label="Acadêmia"
+            />
+            <Input
+              className="form-control"
+              name="professor"
+              label="Professor"
+            />
 
-            <Scope path="contato">
-              <Input className="form-control" name="email" label="E-mail" />
-              <Input
-                className="form-control"
-                name="telefone"
-                label="Telefone"
-              />
-              <Input
-                className="form-control"
-                name="whatsapp"
-                label="Whatsapp"
-              />
-            </Scope>
+            <Input className="form-control" name="email" label="E-mail" />
+            <Input className="form-control" name="telefone" label="Telefone" />
+            <Input className="form-control" name="whatsapp" label="Whatsapp" />
           </div>
         </div>
 

@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { isAuthenticated } from "./services/auth";
 
-import AtletaLis from "./pages/AtletaList";
+import AtletaList from "./pages/AtletaList";
 import AtletaForm from "./pages/AtletaForm";
 import AtletaShow from "./pages/AtletaShow";
 import SignIn from "./pages/SignIn";
@@ -29,7 +29,7 @@ const Routes = () => (
       <PrivateRoute path="/atletas/create" component={AtletaForm} />
       <PrivateRoute path="/atletas/edit/:id" component={AtletaForm} />
       <PrivateRoute path="/atletas/show/:id" component={AtletaShow} />
-      <PrivateRoute path="/atletas" component={AtletaLis} />
+      <PrivateRoute path="/atletas" component={AtletaList} />
 
       <Route path="*" component={() => <h1>Page not found</h1>} />
     </Switch>
