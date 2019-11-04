@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { parseISO } from "date-fns";
-import { zonedTimeToUtc, utcToZonedTime, format } from "date-fns-tz";
+import { utcToZonedTime, format } from "date-fns-tz";
 
 import "jquery";
 
@@ -130,7 +129,7 @@ export default function AtletaList({ history, match }) {
                 <th>Nome</th>
                 <th>E-mail</th>
                 <th>Usuário</th>
-                <th>Data início</th>
+                <th>Data Nascimento</th>
                 <th>Whatsapp</th>
                 <th>Telefone</th>
                 <th>Cidade</th>
@@ -142,8 +141,10 @@ export default function AtletaList({ history, match }) {
             <tbody>
               {atletas.map(atleta => {
                 const data = new Date(atleta.dataNascimento);
-                const zonaData = utcToZonedTime(data, "America/Sao_Paulo");
+                const zonaData = utcToZonedTime(data, "Europe/Berlin");
                 const dataNascimentoFormatada = format(zonaData, "d/M/yyyy");
+
+                console.log("list >>" + atleta.dataNascimento + "    " + data);
 
                 return (
                   <tr key={atleta._id}>

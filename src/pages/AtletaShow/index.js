@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "jquery";
+import { parseFromTimeZone, formatToTimeZone } from "date-fns-timezone";
+
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import { logout } from "../../services/auth";
@@ -26,10 +27,26 @@ export default function AtletaShow({ history, match }) {
     history.push("/");
   }
 
+  const dataNas = parseFromTimeZone(atleta.dataNascimento, {
+    timeZone: "America/Sao_Paulo"
+  });
+
+  const dataNascimento = formatToTimeZone(dataNas, "DD/MM/YYYY", {
+    timeZone: "Europe/Berlin"
+  });
+
+  const dataIns = parseFromTimeZone(atleta.dataInscricao, {
+    timeZone: "America/Sao_Paulo"
+  });
+
+  const dataInscricao = formatToTimeZone(dataIns, "DD/MM/YYYY", {
+    timeZone: "Europe/Berlin"
+  });
+
   return (
     <div className="container">
       <div className="col-md-12">
-        {/* <div className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div className="navbar navbar-expand-lg navbar-dark bg-dark">
           <button
             className="navbar-toggler"
             type="button"
@@ -61,8 +78,9 @@ export default function AtletaShow({ history, match }) {
               Sair
             </button>
           </div>
-        </div> */}
+        </div>
       </div>
+      <br />
       <div className="row">
         <div className="col-md-6">
           <dl>
@@ -74,7 +92,9 @@ export default function AtletaShow({ history, match }) {
             <dt>RG:</dt>
             <dd>{atleta.rg}</dd>
             <dt>Data Nascimento:</dt>
-            <dd>{atleta.dataNascimento}</dd>
+            <dd>{dataNascimento}</dd>
+            <dt>Data Inscrição:</dt>
+            <dd>{dataInscricao}</dd>
             <dt>Profissão</dt>
             <dd>{atleta.profissao}</dd>
             <dt>Peso</dt>

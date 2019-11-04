@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input } from "unform";
 import { Link } from "react-router-dom";
+import { parseFromTimeZone, formatToTimeZone } from "date-fns-timezone";
 
 import api from "../../services/api";
 import { logout } from "../../services/auth";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-// import { Container } from './styles';
 
 export default function AtletaForm({ history, match }) {
   const [data, setData] = useState({}); //update
@@ -30,6 +30,36 @@ export default function AtletaForm({ history, match }) {
       loadData();
     }
   }, [match.params, match.params.id]);
+
+  useEffect(
+    event => {
+      if (match.params.id) {
+        const dataNas = parseFromTimeZone(data.dataNascimento, {
+          timeZone: "America/Sao_Paulo"
+        });
+
+        const dataNascimento = formatToTimeZone(dataNas, "YYYY-MM-DD", {
+          timeZone: "Europe/Berlin"
+        });
+
+        const dataInscr = parseFromTimeZone(data.dataInscricao, {
+          timeZone: "America/Sao_Paulo"
+        });
+
+        const dataInscricao = formatToTimeZone(dataInscr, "YYYY-MM-DD", {
+          timeZone: "Europe/Berlin"
+        });
+
+        setData({
+          ...data,
+          dataNascimento: dataNascimento,
+          dataInscricao: dataInscricao
+        });
+      }
+    },
+    [data.dataNascimento, data.dataInscricao, match.params.id]
+  );
+
 
   function sair() {
     logout();
