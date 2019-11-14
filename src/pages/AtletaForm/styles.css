@@ -1,0 +1,8 @@
+p.error {
+  background-color: #f8d7da;
+  color: #9e5a61;
+  width: 400px;
+  padding: 3px 0px 3px 5px;
+  margin-top: 10px;
+  border-radius: 5px;
+}

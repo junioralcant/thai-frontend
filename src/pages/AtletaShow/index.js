@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { parseFromTimeZone, formatToTimeZone } from "date-fns-timezone";
 
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import { logout } from "../../services/auth";
 import api from "../../services/api";
@@ -44,7 +43,7 @@ export default function AtletaShow({ history, match }) {
   });
 
   return (
-    <div className="container">
+    <div className="container-fluid">
       <div className="col-md-12">
         <div className="navbar navbar-expand-lg navbar-dark bg-dark">
           <button
@@ -84,7 +83,7 @@ export default function AtletaShow({ history, match }) {
       <div className="row">
         <div className="col-md-6">
           <dl>
-            <h3>Dados do cliente</h3>
+            <h3>Dados do Atleta</h3>
             <dt>Nome:</dt>
             <dd>{atleta.nome}</dd>
             <dt>CPF:</dt>
@@ -99,8 +98,16 @@ export default function AtletaShow({ history, match }) {
             <dd>{atleta.profissao}</dd>
             <dt>Peso</dt>
             <dd>{atleta.peso}</dd>
-            <dt>Peso</dt>
+            <dt>Altura</dt>
             <dd>{atleta.altura}</dd>
+          </dl>
+
+          <dl>
+            <h3>Acadêmia</h3>
+            <dt>Nome</dt>
+            <dd>{atleta.nomeAcademia}</dd>
+            <dt>Professor</dt>
+            <dd>{atleta.professor}</dd>
           </dl>
         </div>
         <div className="col-md-6">
@@ -115,11 +122,7 @@ export default function AtletaShow({ history, match }) {
             <dt>Estado</dt>
             <dd>{atleta.estado}</dd>
           </dl>
-        </div>
-      </div>
 
-      <div className="row">
-        <div className="col-md-6">
           <dl>
             <h3>Contatos</h3>
             <dt>Telefone</dt>
@@ -132,14 +135,16 @@ export default function AtletaShow({ history, match }) {
         </div>
 
         <div className="col-md-6">
-          <dl>
-            <h3>Acadêmia</h3>
-            <dt>Nome</dt>
-            <dd>{atleta.nomeAcademia}</dd>
-            <dt>Professor</dt>
-            <dd>{atleta.professor}</dd>
-          </dl>
+          <Link
+            style={{ marginTop: 13, marginBottom: 15 }}
+            className="btn btn-primary"
+            to="/atletas"
+          >
+            Voltar
+          </Link>
         </div>
+
+        <div className="col-md-6"></div>
       </div>
     </div>
   );

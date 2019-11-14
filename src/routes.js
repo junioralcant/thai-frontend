@@ -6,6 +6,7 @@ import AtletaList from "./pages/AtletaList";
 import AtletaForm from "./pages/AtletaForm";
 import AtletaShow from "./pages/AtletaShow";
 import SignIn from "./pages/SignIn";
+import Testes from "./pages/Testes";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -30,6 +31,7 @@ const Routes = () => (
       <PrivateRoute path="/atletas/edit/:id" component={AtletaForm} />
       <PrivateRoute path="/atletas/show/:id" component={AtletaShow} />
       <PrivateRoute path="/atletas" component={AtletaList} />
+      <PrivateRoute path="/testes" component={Testes} />
 
       <Route path="*" component={() => <h1>Page not found</h1>} />
     </Switch>

@@ -6,15 +6,44 @@ import { parseFromTimeZone, formatToTimeZone } from "date-fns-timezone";
 import api from "../../services/api";
 import { logout } from "../../services/auth";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import "bootstrap/dist/js/bootstrap";
+import "./styles.css";
 
 export default function AtletaForm({ history, match }) {
   const [data, setData] = useState({}); //update
+  const [error, setError] = useState("");
 
   async function handleSubmit(data) {
-    await api.postOrPut("/atletas", match.params.id, data);
+    if (!match.params.id) {
+      if (
+        !data.nome ||
+        !data.endereco ||
+        !data.cidade ||
+        !data.rg ||
+        !data.cpf ||
+        !data.telefone ||
+        !data.dataNascimento ||
+        !data.dataInscricao
+      ) {
+        setError("Preencha todos os campos obrigatórios (*)");
+      } else {
+        try {
+          await api.postOrPut("/atletas", match.params.id, data);
 
-    history.push("/atletas"); // redireciona o user
+          history.push("/atletas"); // redireciona o user
+        } catch (error) {
+          setError(error.response.data.error);
+        }
+      }
+    } else {
+      try {
+        await api.postOrPut("/atletas", match.params.id, data);
+
+        history.push("/atletas"); // redireciona o user
+      } catch (error) {
+        setError(error.response.data.error);
+      }
+    }
   }
 
   useEffect(() => {
@@ -57,9 +86,9 @@ export default function AtletaForm({ history, match }) {
         });
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [data.dataNascimento, data.dataInscricao, match.params.id]
   );
-
 
   function sair() {
     logout();
@@ -67,7 +96,7 @@ export default function AtletaForm({ history, match }) {
   }
 
   return (
-    <div className="container">
+    <div className="container-fluid">
       <div className="navbar navbar-expand-lg navbar-dark bg-dark">
         <button
           className="navbar-toggler"
@@ -101,7 +130,9 @@ export default function AtletaForm({ history, match }) {
           </button>
         </div>
       </div>
+
       <h1>Cadastro de Atletas</h1>
+      {error && <p className="error">{error}</p>}
       <Form className="form-group" initialData={data} onSubmit={handleSubmit}>
         <div className="row">
           <div className="col-md-6">
@@ -111,25 +142,25 @@ export default function AtletaForm({ history, match }) {
               name="dataInscricao"
               label="Data Início"
             />
-            <Input className="form-control" name="nome" label="Nome" />
+            <Input className="form-control" name="nome" label="Nome*" />
 
             <Input className="form-control" name="endereco" label="Rua" />
-            <Input className="form-control" name="cidade" label="Cidade" />
+            <Input className="form-control" name="cidade" label="Cidade*" />
             <Input className="form-control" name="bairro" label="Bairro" />
             <Input
               className="form-control"
               name="numero"
               label="Número da casa"
             />
-            <Input className="form-control" name="estado" label="Estado" />
+            <Input className="form-control" name="estado" label="Estado*" />
 
-            <Input className="form-control" name="rg" label="RG" />
-            <Input className="form-control" name="cpf" label="CPF" />
+            <Input className="form-control" name="rg" label="RG*" />
+            <Input className="form-control" name="cpf" label="CPF*" />
             <Input
               type="date"
               className="form-control"
               name="dataNascimento"
-              label="Data Nascimento"
+              label="Data Nascimento*"
             />
           </div>
 
@@ -154,18 +185,26 @@ export default function AtletaForm({ history, match }) {
             />
 
             <Input className="form-control" name="email" label="E-mail" />
-            <Input className="form-control" name="telefone" label="Telefone" />
+            <Input className="form-control" name="telefone" label="Telefone*" />
             <Input className="form-control" name="whatsapp" label="Whatsapp" />
           </div>
         </div>
 
         <button
-          style={{ marginTop: 13 }}
+          style={{ marginTop: 13, marginLeft: 5 }}
           type="submit"
           className="btn btn-primary"
         >
-          Eviar
+          Salvar
         </button>
+
+        <Link
+          style={{ marginTop: 13, marginLeft: 15 }}
+          className="btn btn-danger"
+          to="/atletas"
+        >
+          Cancelar
+        </Link>
       </Form>
     </div>
   );

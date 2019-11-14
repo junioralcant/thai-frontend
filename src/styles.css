@@ -23,3 +23,13 @@ button {
 button {
   cursor: pointer;
 }
+
+#reportViewer1 {
+  position: absolute;
+  top: 70px;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  overflow: hidden;
+  clear: both;
+}

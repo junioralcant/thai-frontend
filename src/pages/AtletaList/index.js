@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { utcToZonedTime, format } from "date-fns-tz";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 import "jquery";
 
@@ -12,8 +18,11 @@ import "./styles.css";
 
 export default function AtletaList({ history, match }) {
   const [atletas, setAtletas] = useState([]);
+  const [atletaExclusao, setAtletaExclusao] = useState({ nome: null });
+
   const [atletasInfo, setAtletasInfo] = useState({});
   const [pagina, setPagina] = useState(1);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     async function loadAtletas(page = pagina) {
@@ -25,8 +34,6 @@ export default function AtletaList({ history, match }) {
 
     loadAtletas();
   }, [pagina]);
-
-  console.log(atletas);
 
   function removeAtletas(atleta) {
     api.delete(`/atletas/${atleta._id}`);
@@ -66,8 +73,21 @@ export default function AtletaList({ history, match }) {
     history.push("/");
   }
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const modalExcluir = cliente => {
+    setAtletaExclusao(cliente);
+    handleClickOpen();
+  };
+
   return (
-    <div className="container">
+    <div className="container-fluid" id="print">
       <div className="row">
         <div className="col-md-12">
           <div className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -108,6 +128,29 @@ export default function AtletaList({ history, match }) {
           </div>
         </div>
       </div>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Exclusão de clientes"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Deseja excluir o(a) cliente {atletaExclusao.nome} ?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => removeAtletas(atletaExclusao)} color="primary">
+            Sim
+          </Button>
+          <Button onClick={handleClose} color="primary" autoFocus>
+            Não
+          </Button>
+        </DialogActions>
+      </Dialog>
       <div className="col-md-12">
         <div className="row">
           <div className="col-md-4">
@@ -122,7 +165,7 @@ export default function AtletaList({ history, match }) {
             />
           </div>
         </div>
-        <div className="row">
+        <div className="row col-md-12">
           <table className="table table-striped">
             <thead>
               <tr>
@@ -142,9 +185,7 @@ export default function AtletaList({ history, match }) {
               {atletas.map(atleta => {
                 const data = new Date(atleta.dataNascimento);
                 const zonaData = utcToZonedTime(data, "Europe/Berlin");
-                const dataNascimentoFormatada = format(zonaData, "d/M/yyyy");
-
-                console.log("list >>" + atleta.dataNascimento + "    " + data);
+                const dataNascimentoFormatada = format(zonaData, "dd/MM/yyyy");
 
                 return (
                   <tr key={atleta._id}>
@@ -172,9 +213,10 @@ export default function AtletaList({ history, match }) {
                       </Link>
 
                       <Link
-                        className="linkTable"
+                        style={{ marginTop: 10 }}
                         to="#"
-                        onClick={() => removeAtletas(atleta)}
+                        className="linkTable"
+                        onClick={() => modalExcluir(atleta)}
                       >
                         Excluir
                       </Link>

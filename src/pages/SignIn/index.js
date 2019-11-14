@@ -23,7 +23,6 @@ class SignIn extends Component {
         const response = await api.post("/sessions", { email, password });
         login(response.data.token);
         this.props.history.push("/atletas");
-        console.log(response.data.token);
       } catch (err) {
         this.setState({
           error:
@@ -38,6 +37,7 @@ class SignIn extends Component {
       <div className="container">
         <div className="col-md-12">
           <div className="login">
+            <h3>Explosão Thai</h3>
             <form onSubmit={this.handleSignIn}>
               {this.state.error && <p>{this.state.error}</p>}
               <input

@@ -1,6 +1,7 @@
 dl {
-  background: #cececece;
+  background: #fff;
   padding: 10px;
   border-radius: 10px;
+  color: rgb(22, 22, 22);
   box-shadow: 2px 3px #888888;
 }
