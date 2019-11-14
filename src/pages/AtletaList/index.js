@@ -135,11 +135,11 @@ export default function AtletaList({ history, match }) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Exclusão de clientes"}
+          {"Exclusão de Atletas"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Deseja excluir o(a) cliente {atletaExclusao.nome} ?
+            Deseja excluir o(a) atleta {atletaExclusao.nome} ?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -170,14 +170,15 @@ export default function AtletaList({ history, match }) {
             <thead>
               <tr>
                 <th>Nome</th>
-                <th>E-mail</th>
-                <th>Usuário</th>
+                <th>Cidade</th>
+                <th>Estado</th>
+                <th>Bairro</th>
                 <th>Data Nascimento</th>
                 <th>Whatsapp</th>
                 <th>Telefone</th>
-                <th>Cidade</th>
                 <th>Peso</th>
                 <th>Altura</th>
+                <th>Ação</th>
                 <th />
               </tr>
             </thead>
@@ -190,12 +191,12 @@ export default function AtletaList({ history, match }) {
                 return (
                   <tr key={atleta._id}>
                     <td>{atleta.nome}</td>
-                    <td>{atleta.email}</td>
-                    <td>{atleta.usuario}</td>
+                    <td>{atleta.estado}</td>
+                    <td>{atleta.cidade}</td>
+                    <td>{atleta.bairro}</td>
                     <td>{dataNascimentoFormatada}</td>
                     <td>{atleta.whatsapp}</td>
                     <td>{atleta.telefone}</td>
-                    <td>{atleta.cidade}</td>
                     <td>{atleta.peso}</td>
                     <td>{atleta.altura}</td>
                     <td>
